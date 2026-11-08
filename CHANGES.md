@@ -16,6 +16,8 @@
 
 <!-- Changes that affect Black's stable style -->
 
+- Fix crash on a named expression in more than one pair of parentheses used as a `with`
+  item, like `with ((a := b)):` (#XXXX)
 - Fix `# fmt: skip` on the last line of a multi-line conditional expression in a
   collection, like `a` ... `if c else d,  # fmt: skip`, producing invalid code (#5647)
 - Preserve trailing blank lines at EOF in unclosed `# fmt: off` blocks (#5634)

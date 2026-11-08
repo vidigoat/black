@@ -2741,7 +2741,16 @@ def remove_with_parens(
         ):
             wrap_in_parentheses(parent, node, visible=False)
         if isinstance(node.children[1], Node):
-            remove_with_parens(node.children[1], node, mode=mode, features=features)
+            # Once its parentheses are invisible, what `node` holds stands in
+            # `parent` directly, so check it against `parent`. Otherwise the
+            # parentheses of the named expression in `with ((a := b)):` are
+            # removed as well, which is invalid.
+            remove_with_parens(
+                node.children[1],
+                parent if is_atom_with_invisible_parens(node) else node,
+                mode=mode,
+                features=features,
+            )
     elif node.type == syms.testlist_gexp:
         for child in node.children:
             if isinstance(child, Node):
